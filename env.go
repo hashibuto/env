@@ -32,6 +32,11 @@ func Initialize(target any) error {
 			}
 		}
 
+		modifier := ""
+		if len(info.TagParts) >= 3 {
+			modifier = info.TagParts[2]
+		}
+
 		var setVal any
 		switch info.Kind {
 		case reflect.String:
@@ -72,9 +77,16 @@ func Initialize(target any) error {
 			}
 			setVal = int32(setVal.(int64))
 		case reflect.Int64:
-			setVal, err = strconv.ParseInt(value, 0, 64)
-			if err != nil {
-				return err
+			if modifier == "duration" {
+				setVal, err = ParseDuration(value)
+				if err != nil {
+					return err
+				}
+			} else {
+				setVal, err = strconv.ParseInt(value, 0, 64)
+				if err != nil {
+					return err
+				}
 			}
 		case reflect.Bool:
 			v := strings.ToLower(value)
