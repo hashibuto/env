@@ -9,7 +9,7 @@ import "github.com/hashibuto/env"
 ## Index
 
 - [func Initialize\(target any\) error](<#Initialize>)
-- [func ParseDuration\(value string\) \(int64, error\)](<#ParseDuration>)
+- [func ParseDuration\(value string\) \(time.Duration, error\)](<#ParseDuration>)
 
 
 <a name="Initialize"></a>
@@ -25,7 +25,7 @@ Initialize initializes target from the environment
 ## func [ParseDuration](<https://github.com/hashibuto/env/blob/master/parse.go#L9>)
 
 ```go
-func ParseDuration(value string) (int64, error)
+func ParseDuration(value string) (time.Duration, error)
 ```
 
 
