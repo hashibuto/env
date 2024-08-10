@@ -97,6 +97,13 @@ func Initialize(target any) error {
 			} else {
 				return fmt.Errorf("unable to determine boolean type from value: %s", v)
 			}
+		case reflect.Slice:
+			// only string slices are supported
+			if value == "" {
+				setVal = []string{}
+			} else {
+				setVal = strings.Split(value, "|")
+			}
 		default:
 			return fmt.Errorf("unsupported data type for field: %s", key)
 		}

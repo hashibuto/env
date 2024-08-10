@@ -19,9 +19,12 @@ type ApplicationConfig struct {
 	BoolValDefault          bool          `env:"CONFIG_MY_BOOL_DEFAULT,t"`
 	DurationM               time.Duration `env:"CONFIG_MY_MINUTES,10m,duration"`
 	DurationS               time.Duration `env:"CONFIG_MY_SECONDS,10s,duration"`
+	SliceOfStrings          []string      `env:"CONFIG_NAMES,james johnson|robin ramsey|silly squirrels"`
+	EmptySlice              []string      `env:"CONFIG_NO_NAMES"`
 }
 
 func TestEnv(t *testing.T) {
+	os.Setenv("CONFIG_NO_NAMES", "")
 	err := os.Setenv("CONFIG_MY_STRING", "funny")
 	assert.Nil(t, err)
 	err = os.Setenv("CONFIG_MY_INT", "122")
@@ -41,4 +44,8 @@ func TestEnv(t *testing.T) {
 	assert.Equal(t, true, config.BoolValDefault)
 	assert.Equal(t, time.Minute*10, config.DurationM)
 	assert.Equal(t, time.Second*10, config.DurationS)
+	assert.Len(t, config.SliceOfStrings, 3)
+	assert.Equal(t, config.SliceOfStrings[0], "james johnson")
+	assert.Equal(t, config.SliceOfStrings[1], "robin ramsey")
+	assert.Len(t, config.EmptySlice, 0)
 }
