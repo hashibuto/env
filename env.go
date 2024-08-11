@@ -102,8 +102,18 @@ func Initialize(target any) error {
 			if value == "" {
 				setVal = []string{}
 			} else {
-				setVal = strings.Split(value, "|")
+				setVal = strings.Split(value, ";")
 			}
+		case reflect.Map:
+			// only map[string]any is supported
+			valMap := map[string]any{}
+			if value != "" {
+				vals := strings.Split(value, ";")
+				for _, val := range vals {
+					valMap[val] = struct{}{}
+				}
+			}
+			setVal = valMap
 		default:
 			return fmt.Errorf("unsupported data type for field: %s", key)
 		}
